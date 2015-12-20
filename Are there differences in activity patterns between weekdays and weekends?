@@ -1,0 +1,23 @@
+dayType <- function(dates) {
++     f <- function(date) {
++         if (weekdays(date) %in% c("Saturday", "Sunday")) {
++             "weekend"
++         }
++         else {
++             "weekday"
++         }
++     }
++     sapply(dates, f)
++ }
+> 
+> activity$dayType <- as.factor(dayType(activity$date))
+> str(activity)
+'data.frame':	17568 obs. of  4 variables:
+ $ steps   : int  NA NA NA NA NA NA NA NA NA NA ...
+ $ date    : Date, format: "2012-10-01" "2012-10-01" ...
+ $ interval: int  0 5 10 15 20 25 30 35 40 45 ...
+ $ dayType : Factor w/ 2 levels "weekday","weekend": 1 1 1 1 1 1 1 1 1 1 ...
+> library(lattice)
+> 
+> steps.interval <- aggregate(steps ~ interval + dayType, activity, mean)
+> xyplot(steps ~ interval | dayType, data=steps.interval, layout=c(2,1), type='l')
